@@ -27,11 +27,16 @@ void async function () {
   const length = Math.max(buffer.byteLength, comparisonBuffer.byteLength);
   let differences = 0;
   for (let index = 0; index < length; index++) {
-    if (buffer[index] !== comparisonBuffer[index]) {
+    // Limit to logging 10 differences at most to not overwhelm the log
+    if (buffer[index] !== comparisonBuffer[index] && differences < 10) {
       console.log(index, comparisonBuffer[index], buffer[index]);
       differences++;
     }
   }
 
-  console.log(differences || 'No', 'differences');
+  if (differences > 10) {
+    console.log('...and', differences - 10, 'other differences');
+  }
+
+  console.log(differences || 'No', 'differences', differences ? 'total' : '');
 }()
