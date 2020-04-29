@@ -46,3 +46,9 @@ Pushing to `index.html` should push updated `index.pdf` to the repository.
 The PDF should remain deterministic even when renderer on different OSs because
 no raster data are printed so text rendering differences across platforms should
 not result in different vector data.
+
+## Considerations
+
+The Chromium version used by Puppeteer might make a difference, too. The version
+might be included in the PDF in the creator metadata field, but I have not checked
+this myself.
