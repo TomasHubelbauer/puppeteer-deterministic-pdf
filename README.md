@@ -41,7 +41,11 @@ Pushing to a file which is not `index.html` should not result into a commit from
 the workflow with changes in `index.pdf`. Such workflow should not push to the
 repository at all.
 
+Example run: https://github.com/TomasHubelbauer/puppeteer-deterministic-pdf/actions/runs/91491597
+
 Pushing to `index.html` should push updated `index.pdf` to the repository.
+
+Example run: https://github.com/TomasHubelbauer/puppeteer-deterministic-pdf/actions/runs/91492728
 
 The PDF should remain deterministic even when renderer on different OSs because
 no raster data are printed so text rendering differences across platforms should
