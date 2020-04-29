@@ -28,8 +28,11 @@ void async function () {
   let differences = 0;
   for (let index = 0; index < length; index++) {
     // Limit to logging 10 differences at most to not overwhelm the log
-    if (buffer[index] !== comparisonBuffer[index] && differences < 10) {
-      console.log(index, comparisonBuffer[index], buffer[index]);
+    if (buffer[index] !== comparisonBuffer[index]) {
+      if (differences < 10) {
+        console.log(index, comparisonBuffer[index], buffer[index]);
+      }
+
       differences++;
     }
   }

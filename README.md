@@ -47,11 +47,12 @@ Pushing to `index.html` should push updated `index.pdf` to the repository.
 
 Example run: https://github.com/TomasHubelbauer/puppeteer-deterministic-pdf/actions/runs/91492728
 
-The PDF should remain deterministic even when renderer on different OSs because
-no raster data are printed so text rendering differences across platforms should
-not result in different vector data.
-
 ## Considerations
+
+The PDF will differ when rendered on different OSs because Chromium bundles the
+font used to render the PDF text in it and different platforms will each have a
+different font bundled. In this case, the PDF is not deterministic even if the
+input has not changed.
 
 The Chromium version used by Puppeteer might make a difference, too. The version
 might be included in the PDF in the creator metadata field, but I have not checked
