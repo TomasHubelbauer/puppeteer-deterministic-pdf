@@ -28,3 +28,21 @@ test if the PDFs open did not have a problem with it, so I didn't look further.
 Unfortunately, Puppeteer doesn't allow configuring the PDF metadata and an issue
 where this was requested was closed: https://github.com/puppeteer/puppeteer/issues/3054
 so this is probably the best one can do at the moment.
+
+## Testing
+
+There is a GitHub Actions workflow associated with this repository. It runs the
+`index.js` script which uses Puppeteer to print `index.html` into `index.pdf`
+and zeroes the date and time stamps.
+
+The workflow runs on every push.
+
+Pushing to a file which is not `index.html` should not result into a commit from
+the workflow with changes in `index.pdf`. Such workflow should not push to the
+repository at all.
+
+Pushing to `index.html` should push updated `index.pdf` to the repository.
+
+The PDF should remain deterministic even when renderer on different OSs because
+no raster data are printed so text rendering differences across platforms should
+not result in different vector data.

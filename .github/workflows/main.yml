@@ -1,0 +1,40 @@
+name: github-actions
+on:
+  push:
+    branches:
+    # Limit to the `master` branch
+    - master
+jobs:
+  github-actions:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run the workflow
+      run: |
+        set -e
+        set -x
+        # Configure Git for the push from the workflow to the repository
+        git config --global user.email "tomas@hubelbauer.net"
+        git config --global user.name "Tomas Hubelbauer"
+        # Check out the `master` branch because by default GitHub Actions checks out detached HEAD
+        git checkout master
+        # Install Chromium dependencies needed for PDF printing
+        sudo apt install libgbm1 -y
+        # Run the command
+        npm install
+        node .
+        # Authenticate with GitHub using the out of the box workflow integration PAT
+        git remote set-url origin https://tomashubelbauer:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
+        # Add the command output to the commit
+        git add *.pdf
+        # Reset unstaged changes to prevent `git commit` from yelling if there's e.g. `package-lock.json` or caches
+        git checkout -- .
+        # Commit the added changes to the repository associated with this workflow (if any)
+        if git diff-index --quiet HEAD --; then
+          exit
+        fi
+        git commit -m "Commit the changed PDF"
+        # Rebase if the branch has meanwhile changed (fail if there are automatically irresolvable merge conflicts)
+        git pull --rebase
+        # Push the commit to the repository associated with this workflow
+        git push
